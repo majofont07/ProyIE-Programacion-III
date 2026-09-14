@@ -6,7 +6,7 @@ import java.util.List;
 public class ArbolABB<T extends Comparable<T>> {
 
     // Clase interna Nodo
-    private NodoABB raiz;
+    private NodoABB<T> raiz;
 
     public ArbolABB() {
         raiz = null;
