@@ -4,11 +4,6 @@ import LógicaDeNegocio.Entidades.PuntoDeInteres;
 
 public class Mirador extends PuntoDeInteres {
 
-    @Override
-    public int compareTo(PuntoDeInteres o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
     //---(TIPO DATO ENUM)---
     public enum TipoVista {
         PANORAMICA,

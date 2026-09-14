@@ -14,7 +14,7 @@ public class GestorPuntoDeInteres {
 
     public GestorPuntoDeInteres(RepositorioPuntoDeInteres repositorio) {
         this.repositorio = repositorio;
-        this.arbolABB = new ArbolABB();
+        this.arbolABB = new ArbolABB<>();
     }
 
     // --- 1. REGISTRAR PUNTO CON VALIDACIONES ---
@@ -44,6 +44,7 @@ public class GestorPuntoDeInteres {
 
         // Agregar al repositorio
         repositorio.agregar(punto);
+        arbolABB.insertar(punto);
     }
 
     // --- 2. MOSTRAR TODOS  ---

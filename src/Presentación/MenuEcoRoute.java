@@ -209,7 +209,7 @@ public class MenuEcoRoute {
 
     public void buscarPuntoPorIndice() {
         System.out.print("Ingrese el código a buscar: ");
-        int codigo = sc.nextInt();
+        int codigo = leerEntero();
         gestor.buscarPorIndice(codigo);
     }
 
