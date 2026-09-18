@@ -170,7 +170,7 @@ public class GestorPuntoDeInteres {
         }
         List<PuntoDeInteres> ordenados = arbolABB.obtenerOrdenados();
         for (PuntoDeInteres p : ordenados) {
-            p.mostrarInformacion(); // acá SÍ es polimorfismo real
+            p.mostrarInformacion(); 
         }
     }
 
@@ -183,5 +183,20 @@ public class GestorPuntoDeInteres {
             System.out.println("No existe un punto con el código " + codigo);
         }
     }
-
+public void eliminarPuntoDelIndice(int codigo) {
+    PuntoDeInteres clave = new Mirador(codigo);
+    if (arbolABB.buscar(clave) == null) {
+        System.out.println("No existe ningun punto con el codigo " + codigo + " en el indice.");
+        return;
+    }
+    arbolABB.eliminar(clave);
+    System.out.println("Punto eliminado del indice correctamente.");
+}
+public void mostrarEstadisticasDelArbol() {
+    System.out.println("----- Estadisticas del Arbol -----");
+    System.out.println("Cantidad de nodos: " + arbolABB.contarNodos());
+    System.out.println("Altura del arbol: " + arbolABB.altura());
+    System.out.println("Cantidad de hojas: " + arbolABB.contarHojas());
+    System.out.println("Cantidad de nodos internos: " + arbolABB.contarNodosInternos());
+}
 }
