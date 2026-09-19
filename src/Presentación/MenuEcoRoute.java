@@ -33,6 +33,8 @@ public class MenuEcoRoute {
             System.out.println("8. Construir el indice");
             System.out.println("9. Mostrar los puntos ordenados");
             System.out.println("10. Buscar un punto utilizando el indice");
+            System.out.println("11. Eliminar un punto de índice");
+            System.out.println("12. Mostrar estadisticas del arbol");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opcion: ");
 
@@ -65,6 +67,10 @@ public class MenuEcoRoute {
                     gestor.mostrarPuntosOrdenados();
                 case 10 ->
                     buscarPuntoPorIndice();
+                case 11 ->
+                    eliminarPuntoIndice();
+                case 12 ->
+                    gestor.mostrarEstadisticasDelArbol();
                 case 0 ->
                     System.out.println("Saliendo del sistema...");
                 default ->
@@ -207,10 +213,16 @@ public class MenuEcoRoute {
         System.out.println("Cantidad de puntos con accesibilidad alta (nivel 4 o 5): " + cantidad);
     }
 
-    public void buscarPuntoPorIndice() {
+    private void buscarPuntoPorIndice() {
         System.out.print("Ingrese el código a buscar: ");
         int codigo = leerEntero();
         gestor.buscarPorIndice(codigo);
+    }
+
+    private void eliminarPuntoIndice() {
+        System.out.println("Ingrese el código a eliminar:");
+        int coidgo = leerEntero();
+        gestor.eliminarPuntoDelIndice(coidgo);
     }
 
     private int leerEntero() {
