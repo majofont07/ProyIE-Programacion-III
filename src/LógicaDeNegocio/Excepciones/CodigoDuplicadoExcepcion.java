@@ -1,4 +1,4 @@
-package Datos.Interfaces.Excepciones;
+package LógicaDeNegocio.Excepciones;
 
 public class CodigoDuplicadoExcepcion extends Exception {
 

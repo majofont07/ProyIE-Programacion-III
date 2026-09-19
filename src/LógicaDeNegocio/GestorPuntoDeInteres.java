@@ -1,7 +1,7 @@
 package LógicaDeNegocio;
 
+import LógicaDeNegocio.Excepciones.*;
 import Datos.Interfaces.RepositorioPuntoDeInteres;
-import Datos.Interfaces.Excepciones.*;
 import Datos.Interfaces.RepositorioPuntosArreglo;
 import LógicaDeNegocio.Entidades.Mirador;
 import LógicaDeNegocio.Entidades.PuntoDeInteres;

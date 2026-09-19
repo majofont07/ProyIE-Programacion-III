@@ -1,7 +1,7 @@
 package Datos.Interfaces;
 
-import Datos.Interfaces.Excepciones.*;
 import LógicaDeNegocio.Entidades.PuntoDeInteres;
+import LógicaDeNegocio.Excepciones.RepositorioLlenoExcepcion;
 
 public class RepositorioPuntosArreglo implements RepositorioPuntoDeInteres {
 

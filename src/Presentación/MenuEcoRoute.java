@@ -1,7 +1,7 @@
 package Presentación;
 
+import LógicaDeNegocio.Excepciones.*;
 import Datos.Interfaces.RepositorioPuntosArreglo;
-import Datos.Interfaces.Excepciones.*;
 import LógicaDeNegocio.GestorPuntoDeInteres;
 import LógicaDeNegocio.Entidades.*;
 import java.util.Scanner;

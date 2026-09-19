@@ -1,4 +1,5 @@
-package Datos.Interfaces.Excepciones;
+
+package LógicaDeNegocio.Excepciones;
 
 public class RepositorioLlenoExcepcion extends Exception {
 
