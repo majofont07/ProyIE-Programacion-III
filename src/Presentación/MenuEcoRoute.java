@@ -33,7 +33,7 @@ public class MenuEcoRoute {
             System.out.println("8. Construir el indice");
             System.out.println("9. Mostrar los puntos ordenados");
             System.out.println("10. Buscar un punto utilizando el indice");
-            System.out.println("11. Eliminar un punto de índice");
+            System.out.println("11. Eliminar un punto de i8ndice");
             System.out.println("12. Mostrar estadisticas del arbol");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opcion: ");

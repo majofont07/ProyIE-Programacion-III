@@ -19,30 +19,28 @@ public class GestorPuntoDeInteres {
 
     // --- 1. REGISTRAR PUNTO CON VALIDACIONES ---
     public void registrarPunto(PuntoDeInteres punto) throws DatoInvalidoExcepcion, CodigoDuplicadoExcepcion, RepositorioLlenoExcepcion {
-        // Validar código > 0
+
         if (punto.getCodigo() <= 0) {
             throw new DatoInvalidoExcepcion("El código debe ser un número entero positivo.");
         }
-        // Validar nombre no vacío
+
         if (punto.getNombre() == null || punto.getNombre().trim().isEmpty()) {
             throw new DatoInvalidoExcepcion("El nombre no puede estar vacío.");
         }
-        // Validar altitud >= 0
+
         if (punto.getAltitud() < 0) {
             throw new DatoInvalidoExcepcion("La altitud debe ser mayor o igual a cero.");
         }
-        // Validar nivel de accesibilidad entre 1 y 5
+
         int nivel = punto.getNivelAccesibilidad();
         if (nivel < 1 || nivel > 5) {
             throw new DatoInvalidoExcepcion("El nivel de accesibilidad debe estar entre 1 y 5.");
         }
 
-        // Verificar código duplicado
         if (repositorio.buscarPorCodigo(punto.getCodigo()) != null) {
             throw new CodigoDuplicadoExcepcion("Ya existe un punto con el código " + punto.getCodigo() + ".");
         }
 
-        // Agregar al repositorio
         repositorio.agregar(punto);
         arbolABB.insertar(punto);
     }
@@ -152,6 +150,11 @@ public class GestorPuntoDeInteres {
     }
 
     public void construirIndice() {
+
+        if (repositorio.cantidad() == 0) {
+            System.out.println("No hay puntos de interes para construir un indice.");
+            return;
+        }
         arbolABB = new ArbolABB<>();
         int cantidad = repositorio.cantidad();
         for (int i = 0; i < cantidad; i++) {
@@ -160,7 +163,7 @@ public class GestorPuntoDeInteres {
                 arbolABB.insertar(p);
             }
         }
-        System.out.println("Índice construido correctamente.");
+        System.out.println("Indice construido correctamente con  " + cantidad +  " puntos.");
     }
 
     public void mostrarPuntosOrdenados() {
@@ -175,6 +178,10 @@ public class GestorPuntoDeInteres {
     }
 
     public void buscarPorIndice(int codigo) {
+        if (arbolABB.estaVacio()){
+            System.out.println("El arbol esta vacio. Construya el indice primero.");
+            return;
+        }
         PuntoDeInteres referencia = new Mirador(codigo); // constructor solo con código, esto es solo para la comparacion
         PuntoDeInteres encontrado = arbolABB.buscar(referencia);
         if (encontrado != null) {
