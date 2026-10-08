@@ -1,7 +1,7 @@
 package Presentación;
 
+import LógicaDeNegocio.Excepciones.*;
 import Datos.Interfaces.RepositorioPuntosArreglo;
-import Datos.Interfaces.Excepciones.*;
 import LógicaDeNegocio.GestorPuntoDeInteres;
 import LógicaDeNegocio.Entidades.*;
 import java.util.Scanner;
@@ -33,14 +33,8 @@ public class MenuEcoRoute {
             System.out.println("8. Construir el indice");
             System.out.println("9. Mostrar los puntos ordenados");
             System.out.println("10. Buscar un punto utilizando el indice");
-            System.out.println("13. Registrar un sendero");
-            System.out.println("14. Eliminar un sendero");
-            System.out.println("15. Mostrar todos los senderos");
-            System.out.println("16. Mostrar las conexiones de un punto");
-            System.out.println("17. Verificar si existe camino entre dos puntos");
-            System.out.println("18. Recorrido en profundidad (DFS)");
-            System.out.println("19. Recorrido en amplitud (BFS)");
-            System.out.println("20. Determinar sectores aislados");
+            System.out.println("11. Eliminar un punto de i8ndice");
+            System.out.println("12. Mostrar estadisticas del arbol");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opcion: ");
 
@@ -73,22 +67,10 @@ public class MenuEcoRoute {
                     gestor.mostrarPuntosOrdenados();
                 case 10 ->
                     buscarPuntoPorIndice();
-                 case 13 ->
-                    registrarSendero();
-                case 14 ->
-                    eliminarSendero();
-                case 15 ->
-                    gestor.mostrarSenderos();
-                case 16 ->
-                    mostrarConexionesDePunto();
-                case 17 ->
-                    verificarCamino();
-                case 18 ->
-                    recorrerDFS();
-                case 19 ->
-                    recorrerBFS();
-                case 20 ->
-                    System.out.println("Cantidad de sectores (componentes conexas): " + gestor.contarComponentes());
+                case 11 ->
+                    eliminarPuntoIndice();
+                case 12 ->
+                    gestor.mostrarEstadisticasDelArbol();
                 case 0 ->
                     System.out.println("Saliendo del sistema...");
                 default ->
@@ -231,10 +213,16 @@ public class MenuEcoRoute {
         System.out.println("Cantidad de puntos con accesibilidad alta (nivel 4 o 5): " + cantidad);
     }
 
-    public void buscarPuntoPorIndice() {
+    private void buscarPuntoPorIndice() {
         System.out.print("Ingrese el código a buscar: ");
         int codigo = leerEntero();
         gestor.buscarPorIndice(codigo);
+    }
+
+    private void eliminarPuntoIndice() {
+        System.out.println("Ingrese el código a eliminar:");
+        int coidgo = leerEntero();
+        gestor.eliminarPuntoDelIndice(coidgo);
     }
 
     private int leerEntero() {
@@ -254,89 +242,6 @@ public class MenuEcoRoute {
             } catch (NumberFormatException e) {
                 System.out.print("Debe ingresar un numero válido. Intente nuevamente: ");
             }
-        }
-    }
-        private void registrarSendero() {
-        System.out.print("Código del primer punto: ");
-        int a = leerEntero();
-        System.out.print("Código del segundo punto: ");
-        int b = leerEntero();
-        System.out.print("Distancia (metros): ");
-        float distancia = leerFloat();
-        System.out.print("Dificultad (1-5): ");
-        int dificultad = leerEntero();
-        System.out.print("Tiempo estimado (minutos): ");
-        int tiempo = leerEntero();
-        System.out.print("¿Habilitado? (S/N): ");
-        boolean habilitado = sc.nextLine().trim().equalsIgnoreCase("S");
-        try {
-            gestor.registrarSendero(a, b, distancia, dificultad, tiempo, habilitado);
-            System.out.println("Sendero registrado con éxito.");
-        } catch (DatoInvalidoExcepcion e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-
-    private void eliminarSendero() {
-        System.out.print("Código del primer punto: ");
-        int a = leerEntero();
-        System.out.print("Código del segundo punto: ");
-        int b = leerEntero();
-        try {
-            gestor.eliminarSendero(a, b);
-            System.out.println("Sendero eliminado.");
-        } catch (DatoInvalidoExcepcion e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-
-    private void mostrarConexionesDePunto() {
-        System.out.print("Código del punto: ");
-        int codigo = leerEntero();
-        try {
-            gestor.mostrarConexionesDePunto(codigo);
-        } catch (DatoInvalidoExcepcion e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-
-    private void verificarCamino() {
-        System.out.print("Código de origen: ");
-        int origen = leerEntero();
-        System.out.print("Código de destino: ");
-        int destino = leerEntero();
-        try {
-            boolean existe = gestor.existeCamino(origen, destino);
-            System.out.println(existe ? "Sí existe un camino entre los puntos."
-                                      : "No existe un camino entre los puntos.");
-        } catch (DatoInvalidoExcepcion e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-
-    private void recorrerDFS() {
-        System.out.print("Código del punto inicial: ");
-        int codigo = leerEntero();
-        try {
-            System.out.println("Recorrido DFS:");
-            for (PuntoDeInteres p : gestor.recorridoDFS(codigo)) {
-                System.out.println("  " + p);
-            }
-        } catch (DatoInvalidoExcepcion e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-
-    private void recorrerBFS() {
-        System.out.print("Código del punto inicial: ");
-        int codigo = leerEntero();
-        try {
-            System.out.println("Recorrido BFS:");
-            for (PuntoDeInteres p : gestor.recorridoBFS(codigo)) {
-                System.out.println("  " + p);
-            }
-        } catch (DatoInvalidoExcepcion e) {
-            System.out.println("Error: " + e.getMessage());
         }
     }
 }

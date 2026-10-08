@@ -1,7 +1,7 @@
 package Datos.Interfaces;
 
 import LógicaDeNegocio.Entidades.PuntoDeInteres;
-import Datos.Interfaces.Excepciones.RepositorioLlenoExcepcion;
+import LógicaDeNegocio.Excepciones.RepositorioLlenoExcepcion;
 
 public interface RepositorioPuntoDeInteres {
 

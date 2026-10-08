@@ -1,5 +1,1 @@
-build/
-dist/
-nbproject/private/
-*.class
-*log
+/build/

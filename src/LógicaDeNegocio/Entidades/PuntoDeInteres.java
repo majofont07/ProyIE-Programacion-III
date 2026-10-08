@@ -68,21 +68,4 @@ public abstract class PuntoDeInteres implements Comparable<PuntoDeInteres> {
     public int compareTo(PuntoDeInteres otro) {
         return Integer.compare(this.codigo, otro.codigo);
     }
-    
-        @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PuntoDeInteres)) return false;
-        return this.codigo == ((PuntoDeInteres) o).codigo;
-    }
-
-    @Override
-    public int hashCode() {
-        return Integer.hashCode(codigo);
-    }
-
-    @Override
-    public String toString() {
-        return codigo + " - " + nombre;
-    }
 }
