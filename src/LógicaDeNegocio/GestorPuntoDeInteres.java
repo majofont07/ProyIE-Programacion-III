@@ -6,15 +6,19 @@ import Datos.Interfaces.RepositorioPuntosArreglo;
 import LógicaDeNegocio.Entidades.Mirador;
 import LógicaDeNegocio.Entidades.PuntoDeInteres;
 import java.util.List;
+import LógicaDeNegocio.Entidades.Sendero;
 
 public class GestorPuntoDeInteres {
 
     private RepositorioPuntoDeInteres repositorio;
     private ArbolABB<PuntoDeInteres> arbolABB;
+    private GrafoSenderos grafoSenderos;
 
     public GestorPuntoDeInteres(RepositorioPuntoDeInteres repositorio) {
         this.repositorio = repositorio;
         this.arbolABB = new ArbolABB<>();
+        this.grafoSenderos = new GrafoSenderos();
+
     }
 
     // --- 1. REGISTRAR PUNTO CON VALIDACIONES ---
@@ -43,6 +47,7 @@ public class GestorPuntoDeInteres {
 
         repositorio.agregar(punto);
         arbolABB.insertar(punto);
+        grafoSenderos.agregarVertice(punto);
     }
 
     // --- 2. MOSTRAR TODOS  ---
@@ -163,7 +168,7 @@ public class GestorPuntoDeInteres {
                 arbolABB.insertar(p);
             }
         }
-        System.out.println("Indice construido correctamente con  " + cantidad +  " puntos.");
+        System.out.println("Indice construido correctamente con  " + cantidad + " puntos.");
     }
 
     public void mostrarPuntosOrdenados() {
@@ -178,7 +183,7 @@ public class GestorPuntoDeInteres {
     }
 
     public void buscarPorIndice(int codigo) {
-        if (arbolABB.estaVacio()){
+        if (arbolABB.estaVacio()) {
             System.out.println("El arbol esta vacio. Construya el indice primero.");
             return;
         }
@@ -207,5 +212,89 @@ public class GestorPuntoDeInteres {
         System.out.println("Altura del arbol: " + arbolABB.altura());
         System.out.println("Cantidad de hojas: " + arbolABB.contarHojas());
         System.out.println("Cantidad de nodos internos: " + arbolABB.contarNodosInternos());
+    }
+
+    // --- ETAPA 3: SENDEROS ---
+    public void registrarSendero(int codOrigen, int codDestino, double distancia, int dificultad, int tiempo) throws DatoInvalidoExcepcion {
+        PuntoDeInteres origen = repositorio.buscarPorCodigo(codOrigen);
+        PuntoDeInteres destino = repositorio.buscarPorCodigo(codDestino);
+        if (origen == null || destino == null) {
+            throw new DatoInvalidoExcepcion("Uno o ambos puntos no existen.");
+        }
+        if (origen.equals(destino)) {
+            throw new DatoInvalidoExcepcion("Los puntos deben ser diferentes.");
+        }
+        if (grafoSenderos.existeSendero(origen, destino)) {
+            throw new DatoInvalidoExcepcion("Ya existe un sendero entre esos puntos.");
+        }
+        Sendero s = new Sendero(distancia, dificultad, tiempo, true);
+        grafoSenderos.agregarSendero(origen, destino, s);
+    }
+
+    public void eliminarSendero(int codOrigen, int codDestino) {
+        PuntoDeInteres origen = repositorio.buscarPorCodigo(codOrigen);
+        PuntoDeInteres destino = repositorio.buscarPorCodigo(codDestino);
+        if (origen == null || destino == null) {
+            System.out.println("Uno o ambos puntos no existen.");
+            return;
+        }
+        if (grafoSenderos.eliminarSendero(origen, destino)) {
+            System.out.println("Sendero eliminado correctamente.");
+        } else {
+            System.out.println("No existe sendero entre esos puntos.");
+        }
+    }
+
+    public void mostrarTodosLosSenderos() {
+        grafoSenderos.mostrarConexiones();
+    }
+
+    public void mostrarConexionesDePunto(int codigo) {
+        PuntoDeInteres p = repositorio.buscarPorCodigo(codigo);
+        if (p == null) {
+            System.out.println("No existe el punto.");
+            return;
+        }
+        grafoSenderos.mostrarConexiones(p);
+    }
+
+    public void verificarCamino(int codOrigen, int codDestino) {
+        PuntoDeInteres origen = repositorio.buscarPorCodigo(codOrigen);
+        PuntoDeInteres destino = repositorio.buscarPorCodigo(codDestino);
+        if (origen == null || destino == null) {
+            System.out.println("Uno o ambos puntos no existen.");
+            return;
+        }
+        System.out.println(grafoSenderos.existeCamino(origen, destino)
+                ? "Sí existe camino entre los puntos."
+                : "No existe camino entre los puntos.");
+    }
+
+    public void recorrerDFS(int codigo) {
+        PuntoDeInteres p = repositorio.buscarPorCodigo(codigo);
+        if (p == null) {
+            System.out.println("No existe el punto.");
+            return;
+        }
+        System.out.println("Recorrido DFS:");
+        for (PuntoDeInteres v : grafoSenderos.recorridoDFS(p)) {
+            System.out.println("  - " + v.getCodigo() + " " + v.getNombre());
+        }
+    }
+
+    public void recorrerBFS(int codigo) {
+        PuntoDeInteres p = repositorio.buscarPorCodigo(codigo);
+        if (p == null) {
+            System.out.println("No existe el punto.");
+            return;
+        }
+        System.out.println("Recorrido BFS:");
+        for (PuntoDeInteres v : grafoSenderos.recorridoBFS(p)) {
+            System.out.println("  - " + v.getCodigo() + " " + v.getNombre());
+        }
+    }
+
+    public void contarComponentesConexas() {
+        System.out.println("Cantidad de componentes conexas: " + grafoSenderos.contarComponentes());
     }
 }

@@ -21,6 +21,7 @@ public class MenuEcoRoute {
     public void mostrarMenu() {
         int opcion = 0;
         do {
+            //OPCIONES ETAPA 1
             System.out.println("\n=== ECOROUTE - MENU PRINCIPAL ===");
             System.out.println("1. Registrar un punto de interes");
             System.out.println("2. Mostrar todos los puntos de interes");
@@ -29,15 +30,23 @@ public class MenuEcoRoute {
             System.out.println("5. Determinar el punto de mayor altitud");
             System.out.println("6. Calcular la altitud promedio");
             System.out.println("7. Contar puntos con accesibilidad alta");
-            //opciones de la parte 1 de la etapa 2
+            //OPCIONES ETAPA 2
             System.out.println("8. Construir el indice");
             System.out.println("9. Mostrar los puntos ordenados");
             System.out.println("10. Buscar un punto utilizando el indice");
-            System.out.println("11. Eliminar un punto de i8ndice");
+            System.out.println("11. Eliminar un punto de indice");
             System.out.println("12. Mostrar estadisticas del arbol");
+            //OPCIONES ETAPA 3
+            System.out.println("13. Registrar un sendero");
+            System.out.println("14. Eliminar un sendero");
+            System.out.println("15. Mostrar todos los senderos");
+            System.out.println("16. Mostrar conexiones de un punto");
+            System.out.println("17. Verificar si existe camino entre dos puntos");
+            System.out.println("18. Recorrido DFS");
+            System.out.println("19. Recorrido BFS");
+            System.out.println("20. Determinar sectores aislados");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opcion: ");
-
             String entrada = sc.nextLine();
             try {
                 opcion = Integer.parseInt(entrada);
@@ -71,6 +80,22 @@ public class MenuEcoRoute {
                     eliminarPuntoIndice();
                 case 12 ->
                     gestor.mostrarEstadisticasDelArbol();
+                case 13 ->
+                    registrarSendero();
+                case 14 ->
+                    eliminarSendero();
+                case 15 ->
+                    gestor.mostrarTodosLosSenderos();
+                case 16 ->
+                    mostrarConexionesDePunto();
+                case 17 ->
+                    verificarCamino();
+                case 18 ->
+                    recorrerDFS();
+                case 19 ->
+                    recorrerBFS();
+                case 20 ->
+                    gestor.contarComponentesConexas();
                 case 0 ->
                     System.out.println("Saliendo del sistema...");
                 default ->
@@ -243,5 +268,60 @@ public class MenuEcoRoute {
                 System.out.print("Debe ingresar un numero válido. Intente nuevamente: ");
             }
         }
+    }
+
+    private void registrarSendero() {
+        try {
+            System.out.print("Código punto origen: ");
+            int o = leerEntero();
+            System.out.print("Código punto destino: ");
+            int d = leerEntero();
+            System.out.print("Distancia (metros): ");
+            double dist = Double.parseDouble(sc.nextLine());
+            System.out.print("Dificultad (1-5): ");
+            int dif = leerEntero();
+            System.out.print("Tiempo estimado (minutos): ");
+            int t = leerEntero();
+            gestor.registrarSendero(o, d, dist, dif, t);
+            System.out.println("Sendero registrado con éxito.");
+        } catch (DatoInvalidoExcepcion e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Valor numérico inválido.");
+        }
+    }
+
+    private void eliminarSendero() {
+        System.out.print("Código punto origen: ");
+        int o = leerEntero();
+        System.out.print("Código punto destino: ");
+        int d = leerEntero();
+        gestor.eliminarSendero(o, d);
+    }
+
+    private void mostrarConexionesDePunto() {
+        System.out.print("Código del punto: ");
+        int c = leerEntero();
+        gestor.mostrarConexionesDePunto(c);
+    }
+
+    private void verificarCamino() {
+        System.out.print("Código origen: ");
+        int o = leerEntero();
+        System.out.print("Código destino: ");
+        int d = leerEntero();
+        gestor.verificarCamino(o, d);
+    }
+
+    private void recorrerDFS() {
+        System.out.print("Código punto inicial: ");
+        int c = leerEntero();
+        gestor.recorrerDFS(c);
+    }
+
+    private void recorrerBFS() {
+        System.out.print("Código punto inicial: ");
+        int c = leerEntero();
+        gestor.recorrerBFS(c);
     }
 }
