@@ -32,6 +32,9 @@ public abstract class PuntoDeInteres implements Comparable<PuntoDeInteres> {
     }
 
     public void setCodigo(int codigo) {
+        if (codigo <= 0) {
+            throw new IllegalArgumentException("El código debe ser un número entero positivo.");
+        }
         this.codigo = codigo;
     }
 
@@ -40,6 +43,9 @@ public abstract class PuntoDeInteres implements Comparable<PuntoDeInteres> {
     }
 
     public void setNombre(String nombre) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre no puede estar vacío.");
+        }
         this.nombre = nombre;
     }
 
@@ -48,6 +54,9 @@ public abstract class PuntoDeInteres implements Comparable<PuntoDeInteres> {
     }
 
     public void setAltitud(float altitud) {
+        if (altitud < 0) {
+            throw new IllegalArgumentException("La altitud debe ser mayor o igual a cero.");
+        }
         this.altitud = altitud;
     }
 
@@ -56,6 +65,9 @@ public abstract class PuntoDeInteres implements Comparable<PuntoDeInteres> {
     }
 
     public void setNivelAccesibilidad(int nivelAccesibilidad) {
+        if (nivelAccesibilidad < 1 || nivelAccesibilidad > 5) {
+            throw new IllegalArgumentException("El nivel de accesibilidad debe estar entre 1 y 5.");
+        }
         this.nivelAccesibilidad = nivelAccesibilidad;
     }
 

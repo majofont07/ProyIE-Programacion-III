@@ -24,27 +24,9 @@ public class GestorPuntoDeInteres {
     // --- 1. REGISTRAR PUNTO CON VALIDACIONES ---
     public void registrarPunto(PuntoDeInteres punto) throws DatoInvalidoExcepcion, CodigoDuplicadoExcepcion, RepositorioLlenoExcepcion {
 
-        if (punto.getCodigo() <= 0) {
-            throw new DatoInvalidoExcepcion("El código debe ser un número entero positivo.");
-        }
-
-        if (punto.getNombre() == null || punto.getNombre().trim().isEmpty()) {
-            throw new DatoInvalidoExcepcion("El nombre no puede estar vacío.");
-        }
-
-        if (punto.getAltitud() < 0) {
-            throw new DatoInvalidoExcepcion("La altitud debe ser mayor o igual a cero.");
-        }
-
-        int nivel = punto.getNivelAccesibilidad();
-        if (nivel < 1 || nivel > 5) {
-            throw new DatoInvalidoExcepcion("El nivel de accesibilidad debe estar entre 1 y 5.");
-        }
-
         if (repositorio.buscarPorCodigo(punto.getCodigo()) != null) {
             throw new CodigoDuplicadoExcepcion("Ya existe un punto con el código " + punto.getCodigo() + ".");
         }
-
         repositorio.agregar(punto);
         arbolABB.insertar(punto);
         grafoSenderos.agregarVertice(punto);
