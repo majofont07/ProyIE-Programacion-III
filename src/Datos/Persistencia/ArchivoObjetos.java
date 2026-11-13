@@ -29,7 +29,7 @@ public class ArchivoObjetos<T extends Serializable> implements Persistencia<T> {
         if (datos == null) {
             throw new IllegalArgumentException("La colección a guardar no puede ser null.");
         }
-        // Se escribe primero en un temporal: si falla, el archivo anterior queda intacto.
+        // se escribe primero en un temporal si es que llega a fallar el archivo anterior queda intacto
         Path temporal = Paths.get(ruta.toString() + ".tmp");
         try (ObjectOutputStream salida = new ObjectOutputStream(Files.newOutputStream(temporal))) {
             salida.writeObject(new ArrayList<>(datos));
@@ -48,7 +48,7 @@ public class ArchivoObjetos<T extends Serializable> implements Persistencia<T> {
     @SuppressWarnings("unchecked")
     public List<T> recuperar() throws IOException {
         if (!Files.exists(ruta)) {
-            return new ArrayList<>(); // primera ejecución: colección vacía
+            return new ArrayList<>(); // primera ejecución con colección vacía
         }
         try (ObjectInputStream entrada = new ObjectInputStream(Files.newInputStream(ruta))) {
             return (List<T>) entrada.readObject();
