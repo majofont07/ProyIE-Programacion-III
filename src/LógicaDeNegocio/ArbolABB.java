@@ -225,12 +225,7 @@ public class ArbolABB<T extends Comparable<T>> {
     }
 
     public int contarNodosInternos() {
-        if (raiz == null) {
-            return 0;
-        }
-
-        return contarNodosInternosRecursivo(raiz.getIzquierdo())
-                + contarNodosInternosRecursivo(raiz.getDerecho());
+        return contarNodosInternosRecursivo(raiz);
     }
 
     private int contarNodosInternosRecursivo(NodoABB<T> nodo) {

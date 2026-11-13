@@ -6,11 +6,12 @@ import LógicaDeNegocio.Entidades.Sendero;
 import java.util.ArrayList;
 import java.util.List;
 import org.jgrapht.Graph;
-import org.jgrapht.Graphs;
 import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.graph.SimpleGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.DepthFirstIterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class GrafoSenderos {
     
@@ -40,27 +41,15 @@ public class GrafoSenderos {
         Sendero s = grafo.getEdge(a, b);
         return s != null && grafo.removeEdge(s);
     }
-    public void mostrarConexiones() {
-        for (PuntoDeInteres p : grafo.vertexSet()) {
-            mostrarConexiones(p);
-        }
-    }
-    
-    public void mostrarConexiones(PuntoDeInteres punto) {
-    System.out.println("Punto " + punto);
-    if (grafo.edgesOf(punto).isEmpty()) {
-        System.out.println("   (sin senderos)");
-        return;
-    }
+    public Map<PuntoDeInteres, Sendero> obtenerConexiones(PuntoDeInteres punto) {
+    Map<PuntoDeInteres, Sendero> conexiones = new LinkedHashMap<>();
     for (Sendero s : grafo.edgesOf(punto)) {
-        PuntoDeInteres otro;
-        if (grafo.getEdgeSource(s).equals(punto)) {
-            otro = grafo.getEdgeTarget(s);
-        } else {
-            otro = grafo.getEdgeSource(s);
-        }
-        System.out.println("   -> " + otro + " | " + s);
+        PuntoDeInteres otro = grafo.getEdgeSource(s).equals(punto)
+                ? grafo.getEdgeTarget(s)
+                : grafo.getEdgeSource(s);
+        conexiones.put(otro, s);
     }
+    return conexiones;
 }
     
     public boolean existeCamino(PuntoDeInteres origen, PuntoDeInteres destino) {
@@ -94,4 +83,11 @@ public class GrafoSenderos {
     public int contarComponentes() {
         return new ConnectivityInspector<>(grafo).connectedSets().size();
     }
+    public List<Sendero> obtenerSenderos() {
+    return new ArrayList<>(grafo.edgeSet());
+}
+
+public PuntoDeInteres[] obtenerExtremos(Sendero sendero) {
+    return new PuntoDeInteres[]{grafo.getEdgeSource(sendero), grafo.getEdgeTarget(sendero)};
+}
 }
